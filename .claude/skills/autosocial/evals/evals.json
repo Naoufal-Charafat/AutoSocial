@@ -1,0 +1,36 @@
+{
+  "skill_name": "autosocial",
+  "notes": "Test prompts for the AutoSocial orchestrator skill. Publishing evals cannot be run end-to-end without a real logged-in session and would post publicly; treat those as manual/dry checks. Read-only and queue-preparation prompts are safe to run against a running dashboard.",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Quiero empezar a publicar Reels y Shorts automáticamente con AutoSocial. Ponme en marcha: ¿qué me falta para poder publicar en Instagram y YouTube?",
+      "expected_output": "Ensures deps/dashboard, runs the health check, and reports exactly what's missing (e.g. .env, no saved sessions), then walks the human through logging in. Does not attempt to enter credentials.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "Encola este vídeo para Instagram y YouTube con el texto 'Lanzamiento de mi app 🚀 #buildinpublic' y publícalo ya en Instagram.",
+      "expected_output": "Queues the clip (+ caption sidecar) into the instagram and youtube pending folders, confirms the exact caption/account/platform, asks for explicit approval before the Instagram run-once, then reports lastResult honestly.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "Programa que se publique en YouTube todos los días a las 9:00 y las 18:30 hora de Madrid.",
+      "expected_output": "Sets TZ appropriately, uses schedule:daily for youtube with 09:00,18:30, confirms the recurring cadence is authorized, and starts the scheduler; notes schedulers don't survive a dashboard restart.",
+      "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "Se supone que programé un post pero no ha salido nada. ¿Qué ha pasado?",
+      "expected_output": "Reads status <platform> (running flag, schedulePlan, logs, lastResult), checks the restart-clears-schedulers and TZ/jitter gotchas, and checks whether the session is still valid — diagnoses from data rather than guessing.",
+      "files": []
+    },
+    {
+      "id": 5,
+      "prompt": "Añade una marca nueva llamada 'Mi Segundo Canal' y déjala activa para trabajar con ella.",
+      "expected_output": "Calls account:add \"Mi Segundo Canal\", confirms it became active, and explains that queues/sessions are now isolated per that brand.",
+      "files": []
+    }
+  ]
+}
